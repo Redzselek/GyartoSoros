@@ -8,7 +8,7 @@
         Title="MainWindow" Height="920" Width="1600" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
     <StackPanel>
         <Label Content="Válasszon tábla méretet:" Margin="0,20,0,0"  Width="528" FontSize="48"/>
-        <ComboBox FontSize="42" Width="70" Margin="600,-60,0,0">
+        <ComboBox x:Name="TablaMeret" FontSize="42" Width="70" Margin="600,-60,0,0">
             <ComboBoxItem FontSize="42" Content="8" IsSelected="True"/>
             <ComboBoxItem FontSize="42" Content="12"/>
             <ComboBoxItem FontSize="42" Content="16"/>
