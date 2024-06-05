@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="920" Width="1600" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
     <StackPanel>
-        <Label Content="Válasszon tábla méretet:" Margin="0,20,0,0"  Width="250" FontSize="22"/>
-        <ComboBox FontSize="22" Width="60" Margin="300,-35,0,0">
-            <ComboBoxItem FontSize="22" Content="8" IsSelected="True"/>
-            <ComboBoxItem FontSize="22" Content="12"/>
-            <ComboBoxItem FontSize="22" Content="16"/>
+        <Label Content="Válasszon tábla méretet:" Margin="0,20,0,0"  Width="528" FontSize="48"/>
+        <ComboBox FontSize="42" Width="70" Margin="600,-60,0,0">
+            <ComboBoxItem FontSize="42" Content="8" IsSelected="True"/>
+            <ComboBoxItem FontSize="42" Content="12"/>
+            <ComboBoxItem FontSize="42" Content="16"/>
         </ComboBox>
         <Rectangle HorizontalAlignment="Center" Height="100" Margin="0,250,0,0" Stroke="Black" VerticalAlignment="Top" Width="1500" Fill="#00000000"/>
         <Grid x:Name="Grd_1" Margin="0,-100,0,0" Height="100" Width="1500">
