@@ -14,55 +14,65 @@
             <ComboBoxItem FontSize="42" Content="16"/>
         </ComboBox>
         <Rectangle HorizontalAlignment="Center" Height="100" Margin="0,250,0,0" Stroke="Black" VerticalAlignment="Top" Width="1500" Fill="#00000000"/>
-        <Grid x:Name="Grd_1" Margin="0,-100,0,0" Height="100" Width="1500">
+        <Grid x:Name="Grd_1" Margin="0,-100,0,0" Height="100" Width="1500" Panel.ZIndex="50">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
         </Grid>
         <Rectangle HorizontalAlignment="Center" Height="100" Margin="0,50,0,0" Stroke="Black" VerticalAlignment="Top" Width="1500" Fill="#2e2e2e2e"/>
-        <Grid x:Name="Grd_2" Margin="0,-100,0,0" Height="100" Width="1500">
+        <Grid x:Name="Grd_2" Margin="0,-100,0,0" Height="100" Width="1500" Panel.ZIndex="50">
             <Grid.ColumnDefinitions>
-                 <!--<ColumnDefinition/> -->
-                 <!--<ColumnDefinition/> -->
-                 <!--<ColumnDefinition/> -->
-                 <!--<ColumnDefinition/> -->
-                 <!--<ColumnDefinition/> -->
-                 <!--<ColumnDefinition/> -->
-                 <!--<ColumnDefinition/> -->
-                 <!--<ColumnDefinition/> -->
-                 <!--<ColumnDefinition/> -->
-                 <!--<ColumnDefinition/> -->
-                 <!--<ColumnDefinition/> -->
-                 <!--<ColumnDefinition/> -->
-                 <!--<ColumnDefinition/> -->
-                 <!--<ColumnDefinition/> -->
-                 <!--<ColumnDefinition/> -->
-                 <!--<ColumnDefinition/> -->
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-        <!-- <Rectangle Grid.Column="0" Height="75" Stroke="Black" Fill="Red" Width="75" /> -->
-        <!-- <Rectangle Grid.Column="1" Height="75" Stroke="Black" Fill="Green" Width="75"/>-->
-        <!-- <Rectangle Grid.Column="2" Height="75" Stroke="Black" Fill="Blue" Width="75"/> -->
-        <!-- <Rectangle Grid.Column="3" Height="75" Stroke="Black" Fill="Red" Width="75"/>  -->
-        <!-- <Rectangle Grid.Column="4" Height="75" Stroke="Black" Fill="Red" Width="75"/>  -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!--<Rectangle Grid.Column="0" Height="75" Stroke="Black" Fill="Red" Width="75"/>-->
+            <!--<Rectangle Grid.Column="1" Height="75" Stroke="Black" Fill="Green" Width="75"/> -->
+            <!--<Rectangle Grid.Column="2" Height="75" Stroke="Black" Fill="Blue" Width="75"/>  -->
+            <!--<Rectangle Grid.Column="3" Height="75" Stroke="Black" Fill="Red" Width="75"/>   -->
+            <!--<Rectangle Grid.Column="4" Height="75" Stroke="Black" Fill="Red" Width="75"/>   -->
         </Grid>
-        <Button x:Name="KovetkezoKor" Content="Következő kör" FontSize="48" Margin="0,50,0,0" Width="600" Height="100"/>
-       
-
+        <Button x:Name="KovetkezoKor" Content="Következő kör" FontSize="48" Margin="0,50,0,0" Width="600" Height="100" Click="KovetkezoKor_Click"/>
+        <WrapPanel Margin="0,25,0,0">
+            <Label Content="Játékos 1 száma:" Margin="25,0,0,0"  Width="360" FontSize="48"/>
+            <TextBox x:Name="Szam1" TextWrapping="Wrap" Text="0" Width="60" Height="55" FontSize="48" HorizontalContentAlignment="Center"/>
+            <Label Content="Játékos 2 száma:" Margin="700,0,0,0"  Width="360" FontSize="48"/>
+            <TextBox x:Name="Szam2" TextWrapping="Wrap" Text="0" Width="60" Height="55" FontSize="48" HorizontalContentAlignment="Center" />
+            
+        </WrapPanel>
     </StackPanel>
-    
 </Window>
