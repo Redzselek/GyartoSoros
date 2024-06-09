@@ -194,16 +194,5 @@ namespace GyartoSoros
                 meret = 16;
             }
         }
-
-        private void TheGridIs(int x)
-        {
-            ColumnDefinition c1 = new ColumnDefinition();
-            c1.Width = new GridLength(0, GridUnitType.Star);
-            ColumnDefinition c2 = new ColumnDefinition();
-            c2.Width = new GridLength(80, GridUnitType.Star);
-            Grd_1.ColumnDefinitions.Add(c1);
-            Grd_1.ColumnDefinitions.Add(c2);
-        }
     }
 }
-
