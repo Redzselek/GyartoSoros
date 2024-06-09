@@ -58,10 +58,9 @@ namespace GyartoSoros
         private List<string> colorsListGrd2 = new List<string>();
         private List<Rectangle> rectanglesListGrd2 = new List<Rectangle>();
 
-        // Nyomon követi, hogy hányadik oszlopba kell helyezni a következő rectangle-t
-        private int currentColumn = 0;
+        // Grid méret
         private int meret = 8;
-
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -87,12 +86,8 @@ namespace GyartoSoros
                 AddRectangleToGrid(Grd_2, colorsListGrd2, rectanglesListGrd2);
             }
 
-            // Ellenőrizni, hogy túllépték-e a "meret"-et
-            CheckGridSize(Grd_1, rectanglesListGrd1);
-            CheckGridSize(Grd_2, rectanglesListGrd2);
-
             // Pontok számítása és megjelenítése, ha mindkét játékos elérte a "meret"-et
-            if (rectanglesListGrd1.Count == meret && rectanglesListGrd2.Count == meret && szam1 == szam2)
+            if (rectanglesListGrd1.Count == meret && rectanglesListGrd2.Count == meret)
             {
                 int points1 = CalculatePoints(colorsListGrd1);
                 int points2 = CalculatePoints(colorsListGrd2);
@@ -105,9 +100,6 @@ namespace GyartoSoros
 
         private void Jatek(object sender, RoutedEventArgs e)
         {
-            // Kezdjük az első oszlopban
-            currentColumn = 0;
-
             // Tisztítsuk meg a listákat és a Grid-eket
             colorsListGrd1.Clear();
             rectanglesListGrd1.Clear();
@@ -123,7 +115,20 @@ namespace GyartoSoros
 
         private void AddRectangleToGrid(Grid grid, List<string> colorsList, List<Rectangle> rectanglesList)
         {
-            if (currentColumn >= meret) return; // Ne adjunk hozzá több rectangle-t, ha elérte a "meret"-et
+            if (rectanglesList.Count >= meret)
+            {
+                // Ha a lista mérete eléri a "meret"-et, távolítsuk el az első elemet
+                Rectangle toRemove = rectanglesList[0];
+                grid.Children.Remove(toRemove);
+                rectanglesList.RemoveAt(0);
+                colorsList.RemoveAt(0);
+
+                // Frissítsük a grid oszlopait
+                for (int i = 0; i < rectanglesList.Count; i++)
+                {
+                    Grid.SetColumn(rectanglesList[i], i);
+                }
+            }
 
             Rectangle doboz = new Rectangle
             {
@@ -137,21 +142,9 @@ namespace GyartoSoros
             colorsList.Add(color);
             rectanglesList.Add(doboz);
 
-            Grid.SetColumn(doboz, currentColumn);
+            Grid.SetColumn(doboz, rectanglesList.Count - 1);
             Grid.SetRow(doboz, 0);
             grid.Children.Add(doboz);
-
-            currentColumn++;
-        }
-
-        private void CheckGridSize(Grid grid, List<Rectangle> rectanglesList)
-        {
-            while (rectanglesList.Count > meret)
-            {
-                Rectangle toRemove = rectanglesList[0];
-                grid.Children.Remove(toRemove);
-                rectanglesList.RemoveAt(0);
-            }
         }
 
         private int CalculatePoints(List<string> colorsList)
@@ -179,5 +172,38 @@ namespace GyartoSoros
         {
             KovetkezoKor.IsEnabled = rectanglesListGrd1.Count < meret || rectanglesListGrd2.Count < meret;
         }
+
+        private void UjJatek_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+            Application.Current.Shutdown();
+        }
+
+        private void TablaMeret_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (TablaMeret.SelectedIndex == 0)
+            {
+                meret = 8;
+            }
+            else if (TablaMeret.SelectedIndex == 1)
+            {
+                meret = 12;
+            }
+            else if (TablaMeret.SelectedIndex == 2)
+            {
+                meret = 16;
+            }
+        }
+
+        private void TheGridIs(int x)
+        {
+            ColumnDefinition c1 = new ColumnDefinition();
+            c1.Width = new GridLength(0, GridUnitType.Star);
+            ColumnDefinition c2 = new ColumnDefinition();
+            c2.Width = new GridLength(80, GridUnitType.Star);
+            Grd_1.ColumnDefinitions.Add(c1);
+            Grd_1.ColumnDefinitions.Add(c2);
+        }
     }
 }
+

@@ -8,12 +8,12 @@
         Title="MainWindow" Height="920" Width="1600" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
     <StackPanel>
         <Label Content="Válasszon tábla méretet:" Margin="0,20,0,0"  Width="528" FontSize="48"/>
-        <ComboBox x:Name="TablaMeret" FontSize="42" Width="70" Margin="600,-60,0,0">
+        <ComboBox x:Name="TablaMeret" FontSize="42" Width="70" Margin="600,-60,0,0" SelectionChanged="TablaMeret_SelectionChanged">
             <ComboBoxItem FontSize="42" Content="8" IsSelected="True"/>
             <ComboBoxItem FontSize="42" Content="12"/>
             <ComboBoxItem FontSize="42" Content="16"/>
         </ComboBox>
-        <Rectangle HorizontalAlignment="Center" Height="100" Margin="0,250,0,0" Stroke="Black" VerticalAlignment="Top" Width="1500" Fill="#00000000"/>
+        <Rectangle x:Name="Grd_1Rectangle" HorizontalAlignment="Center" Height="100" Margin="0,200,0,0" Stroke="Black" VerticalAlignment="Top" Width="1500" Fill="#00000000"/>
         <Grid x:Name="Grd_1" Margin="0,-100,0,0" Height="100" Width="1500" Panel.ZIndex="50">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -37,7 +37,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
         </Grid>
-        <Rectangle HorizontalAlignment="Center" Height="100" Margin="0,50,0,0" Stroke="Black" VerticalAlignment="Top" Width="1500" Fill="#2e2e2e2e"/>
+        <Rectangle x:Name="Grd_2Rectangle" HorizontalAlignment="Center" Height="100" Margin="0,50,0,0" Stroke="Black" VerticalAlignment="Top" Width="1500" Fill="#2e2e2e2e"/>
         <Grid x:Name="Grd_2" Margin="0,-100,0,0" Height="100" Width="1500" Panel.ZIndex="50">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -72,6 +72,7 @@
             <TextBox x:Name="Szam1" TextWrapping="Wrap" Text="0" Width="60" Height="55" FontSize="48" HorizontalContentAlignment="Center"/>
             <Label Content="Játékos 2 száma:" Margin="700,0,0,0"  Width="360" FontSize="48"/>
             <TextBox x:Name="Szam2" TextWrapping="Wrap" Text="0" Width="60" Height="55" FontSize="48" HorizontalContentAlignment="Center" />
+            <Button x:Name="UjJatek" Content="Új játék" ToolTip="Ha erre rányomsz a mostani játékmenet elveszik." Margin="700,15,0,0" Height="69" FontSize="48" Width="205" Click="UjJatek_Click"/>
             
         </WrapPanel>
     </StackPanel>
