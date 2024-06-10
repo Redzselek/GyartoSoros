@@ -1,23 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace GyartoSoros
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public class RectangleHelper
@@ -26,13 +18,8 @@ namespace GyartoSoros
 
             public static string SetRandomColor(Rectangle rectangle)
             {
-                // Színek tömbje
                 string[] colors = { "piros", "zold", "kek" };
-
-                // Generálj egy random számot 0 és 2 között
                 int colorIndex = random.Next(colors.Length);
-
-                // Állítsd be a színt a random szám alapján
                 string selectedColor = colors[colorIndex];
                 switch (selectedColor)
                 {
@@ -46,21 +33,23 @@ namespace GyartoSoros
                         rectangle.Fill = new SolidColorBrush(Colors.Blue);
                         break;
                 }
-
-                // Visszatér a kiválasztott színnel
                 return selectedColor;
             }
         }
 
-        // Listák a színek és a rectangle objektumok tárolására
+        [Serializable]
+        public class GameState
+        {
+            public List<string> ColorsListGrd1 { get; set; }
+            public List<string> ColorsListGrd2 { get; set; }
+        }
+
         private List<string> colorsListGrd1 = new List<string>();
         private List<Rectangle> rectanglesListGrd1 = new List<Rectangle>();
         private List<string> colorsListGrd2 = new List<string>();
         private List<Rectangle> rectanglesListGrd2 = new List<Rectangle>();
-
-        // Grid méret
         private int meret = 8;
-        
+
         public MainWindow()
         {
             InitializeComponent();
@@ -69,47 +58,47 @@ namespace GyartoSoros
 
         private void KovetkezoKor_Click(object sender, RoutedEventArgs e)
         {
-            // Beolvasni a játékosok választásait
+            KovetkezoKor.Content = "Következő kör";
+            TablaMeret.IsEnabled = false;
             int szam1, szam2;
-            if (!int.TryParse(Szam1.Text, out szam1)) szam1 = 0;
-            if (!int.TryParse(Szam2.Text, out szam2)) szam2 = 0;
-
-            // Hozzáadni a rectangle-ket az első játékoshoz
-            for (int i = 0; i < szam1; i++)
+            if (Szam1.Text == "0" || Szam2.Text == "0")
             {
-                AddRectangleToGrid(Grd_1, colorsListGrd1, rectanglesListGrd1);
+                MessageBox.Show("Nem lehet egyik játékos száma sem 0");
             }
-
-            // Hozzáadni a rectangle-ket a második játékoshoz
-            for (int i = 0; i < szam2; i++)
+            else
             {
-                AddRectangleToGrid(Grd_2, colorsListGrd2, rectanglesListGrd2);
-            }
+                if (!int.TryParse(Szam1.Text, out szam1)) szam1 = 0;
+                if (!int.TryParse(Szam2.Text, out szam2)) szam2 = 0;
 
-            // Pontok számítása és megjelenítése, ha mindkét játékos elérte a "meret"-et
-            if (rectanglesListGrd1.Count == meret && rectanglesListGrd2.Count == meret)
-            {
-                int points1 = CalculatePoints(colorsListGrd1);
-                int points2 = CalculatePoints(colorsListGrd2);
-                MessageBox.Show($"Játékos 1 pontok: {points1}\nJátékos 2 pontok: {points2}");
-            }
+                for (int i = 0; i < szam1; i++)
+                {
+                    AddRectangleToGrid(Grd_1, colorsListGrd1, rectanglesListGrd1);
+                }
 
-            // Frissíteni a gomb állapotát
-            UpdateButtonState();
+                for (int i = 0; i < szam2; i++)
+                {
+                    AddRectangleToGrid(Grd_2, colorsListGrd2, rectanglesListGrd2);
+                }
+                Pont1.Content = Convert.ToString(CalculatePoints(colorsListGrd1));
+                Pont2.Content = Convert.ToString(CalculatePoints(colorsListGrd2));
+                if (rectanglesListGrd1.Count == meret && rectanglesListGrd2.Count == meret)
+                {
+                    int points1 = CalculatePoints(colorsListGrd1);
+                    int points2 = CalculatePoints(colorsListGrd2);
+                    MessageBox.Show($"Játékos 1 pontok: {points1}\nJátékos 2 pontok: {points2}");
+                }
+                UpdateButtonState();
+            }
         }
 
         private void Jatek(object sender, RoutedEventArgs e)
         {
-            // Tisztítsuk meg a listákat és a Grid-eket
             colorsListGrd1.Clear();
             rectanglesListGrd1.Clear();
             colorsListGrd2.Clear();
             rectanglesListGrd2.Clear();
-
             Grd_1.Children.Clear();
             Grd_2.Children.Clear();
-
-            // Frissíteni a gomb állapotát
             UpdateButtonState();
         }
 
@@ -117,13 +106,10 @@ namespace GyartoSoros
         {
             if (rectanglesList.Count >= meret)
             {
-                // Ha a lista mérete eléri a "meret"-et, távolítsuk el az első elemet
                 Rectangle toRemove = rectanglesList[0];
                 grid.Children.Remove(toRemove);
                 rectanglesList.RemoveAt(0);
                 colorsList.RemoveAt(0);
-
-                // Frissítsük a grid oszlopait
                 for (int i = 0; i < rectanglesList.Count; i++)
                 {
                     Grid.SetColumn(rectanglesList[i], i);
@@ -137,7 +123,6 @@ namespace GyartoSoros
                 Margin = new Thickness(10, 10, 10, 10)
             };
 
-            // Véletlenszerű szín beállítása és rögzítése
             string color = RectangleHelper.SetRandomColor(doboz);
             colorsList.Add(color);
             rectanglesList.Add(doboz);
@@ -175,8 +160,17 @@ namespace GyartoSoros
 
         private void UjJatek_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
-            Application.Current.Shutdown();
+            MessageBoxResult result = MessageBox.Show("Új játékot kíván kezdeni ?", "",MessageBoxButton.YesNo);
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+                    Application.Current.Shutdown();
+                    break;
+                case MessageBoxResult.No:
+                    MessageBox.Show("Rendben!", "");
+                    break;
+            }
         }
 
         private void TablaMeret_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -193,6 +187,90 @@ namespace GyartoSoros
             {
                 meret = 16;
             }
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            GameState state = new GameState
+            {
+                ColorsListGrd1 = new List<string>(colorsListGrd1),
+                ColorsListGrd2 = new List<string>(colorsListGrd2)
+            };
+
+            using (FileStream fs = new FileStream("gameState.dat", FileMode.Create))
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(fs, state);
+            }
+            MessageBox.Show("Játékállás elmentve.");
+        }
+
+        private void LoadButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Biztosan be szeretnéd tölteni a mentett játékot? A jelenlegi játékmenet el fog veszni.", "Betöltés", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                if (File.Exists("gameState.dat"))
+                {
+                    using (FileStream fs = new FileStream("gameState.dat", FileMode.Open))
+                    {
+                        BinaryFormatter formatter = new BinaryFormatter();
+                        GameState state = (GameState)formatter.Deserialize(fs);
+
+                        colorsListGrd1 = new List<string>(state.ColorsListGrd1);
+                        colorsListGrd2 = new List<string>(state.ColorsListGrd2);
+
+                        rectanglesListGrd1.Clear();
+                        rectanglesListGrd2.Clear();
+                        Grd_1.Children.Clear();
+                        Grd_2.Children.Clear();
+
+                        foreach (var color in colorsListGrd1)
+                        {
+                            AddRectangleFromColor(Grd_1, color, rectanglesListGrd1);
+                        }
+                        foreach (var color in colorsListGrd2)
+                        {
+                            AddRectangleFromColor(Grd_2, color, rectanglesListGrd2);
+                        }
+                    }
+                    Pont1.Content = Convert.ToString(CalculatePoints(colorsListGrd1));
+                    Pont2.Content = Convert.ToString(CalculatePoints(colorsListGrd2));
+                    UpdateButtonState();
+                    MessageBox.Show("Játékállás betöltve.");
+                }
+                else
+                {
+                    MessageBox.Show("Nincs elmentett játékállás.");
+                }
+            }
+        }
+
+        private void AddRectangleFromColor(Grid grid, string color, List<Rectangle> rectanglesList)
+        {
+            Rectangle doboz = new Rectangle
+            {
+                Height = 100,
+                Width = 100,
+                Margin = new Thickness(10, 10, 10, 10)
+            };
+
+            switch (color)
+            {
+                case "piros":
+                    doboz.Fill = new SolidColorBrush(Colors.Red);
+                    break;
+                case "zold":
+                    doboz.Fill = new SolidColorBrush(Colors.Green);
+                    break;
+                case "kek":
+                    doboz.Fill = new SolidColorBrush(Colors.Blue);
+                    break;
+            }
+
+            rectanglesList.Add(doboz);
+            Grid.SetColumn(doboz, rectanglesList.Count - 1);
+            Grid.SetRow(doboz, 0);
+            grid.Children.Add(doboz);
         }
     }
 }
