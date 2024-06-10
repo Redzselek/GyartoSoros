@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using System.Windows.Controls;
@@ -160,7 +159,7 @@ namespace GyartoSoros
 
         private void UjJatek_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Új játékot kíván kezdeni ?", "",MessageBoxButton.YesNo);
+            MessageBoxResult result = MessageBox.Show("Új játékot kíván kezdeni ?", "", MessageBoxButton.YesNo);
             switch (result)
             {
                 case MessageBoxResult.Yes:
